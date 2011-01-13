@@ -1,5 +1,7 @@
 @echo off
 rem Oberon Templates. Copyright (c) Alexander Iljin, 2011
+if "%~1" == "" goto :Help
+
 del %TMP%\ot_params.tmp 2>nul
 :WriteParam
 if "%~2" == "" goto :HandleParams
@@ -23,3 +25,11 @@ rem equals sign will be taken when the input string is split in two parts.
 rem Example: 'Item=Value=X' becomes 's/$(Item=Value)/X/'.
 sed -f %TMP%\ot_params.sed <%~dp0%1.ob2
 del %TMP%\ot_params.tmp %TMP%\ot_params.sed
+goto :eof
+
+:Help
+echo Oberon Templates. Copyright (c) Alexander Iljin, 2011.
+echo Usage: %~nx0 ^<TemplateName^> [param1=value param2=value ...]
+echo Example: %~nx0 Stack "ModuleName=ModuleStack" "Import=IMPORT Project;" "ItemType=Project.Module" ^>ModuleStack.ob2
+echo The script outputs the requested template after substituting the given parameters.
+echo The number and names of the parameters are template-specific, see ReadMe.txt.
